@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.databinding.ActivityComposeBinding;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -26,25 +28,30 @@ public class ComposeActivity extends AppCompatActivity {
     public static final int MAX_TWEET_LENGTH = 140;
     public static final String TAG = "ComposeActivity";
 
-    EditText etCompose;
-    Button btnTweet;
-    TextView tvCharacterCount;
+    //EditText etCompose;
+    //Button btnTweet;
+    //TextView tvCharacterCount;
 
     TwitterClient client;
+    ActivityComposeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compose);
+        //setContentView(R.layout.activity_compose);
+
+        binding = ActivityComposeBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         client = TwitterApp.getRestClient(this);
 
-        etCompose = findViewById(R.id.etCompose);
-        btnTweet = findViewById(R.id.btnTweet);
-        tvCharacterCount = findViewById(R.id.tvCharacterCount);
-        tvCharacterCount.setText("0/280");
+        //etCompose = findViewById(R.id.etCompose);
+        //btnTweet = findViewById(R.id.btnTweet);
+        //tvCharacterCount = findViewById(R.id.tvCharacterCount);
+        binding.tvCharacterCount.setText("0/280");
 
-        etCompose.addTextChangedListener(new TextWatcher() {
+        binding.etCompose.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -52,9 +59,9 @@ public class ComposeActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int tweetLength = etCompose.getText().toString().length();
+                int tweetLength = binding.etCompose.getText().toString().length();
                 String charsLeftMessage = tweetLength + "/280";
-                tvCharacterCount.setText(charsLeftMessage);
+                binding.tvCharacterCount.setText(charsLeftMessage);
             }
 
             @Override
@@ -64,10 +71,10 @@ public class ComposeActivity extends AppCompatActivity {
         });
 
         // Set click listener on button
-        btnTweet.setOnClickListener(new View.OnClickListener() {
+        binding.btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String tweetContent = etCompose.getText().toString();
+                final String tweetContent = binding.etCompose.getText().toString();
                 if (tweetContent.isEmpty()) {
                     Toast.makeText(ComposeActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
