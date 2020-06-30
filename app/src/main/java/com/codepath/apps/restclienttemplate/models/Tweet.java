@@ -5,6 +5,7 @@ import android.text.format.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,11 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+@Parcel
 public class Tweet {
 
     public String body;
     public String createdAt;
     public User user;
+
+    public Tweet() {}
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
