@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
@@ -38,6 +39,7 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     //SwipeRefreshLayout swipeContainer;
     ActivityTimelineBinding binding;
+    EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +76,42 @@ public class TimelineActivity extends AppCompatActivity {
         adapter = new TweetsAdapter(this, tweets);
         // Recycler view setup: layout manager and the adapter
         binding.rvTweets.setAdapter(adapter);
-        binding.rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        binding.rvTweets.setLayoutManager(layoutManager);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG, "onLoadMore" + page);
+                loadMoreData();
+            }
+        };
+        // Add scroll listener to the Recycler View
+        binding.rvTweets.addOnScrollListener(scrollListener);
+
         populateHomeTimeline();
+    }
+
+    private void loadMoreData() {
+        long maxId = tweets.get(tweets.size() - 1).id;
+        client.getNextPageOfTweets(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "onSuccess for loadMoreDate" + json.toString());
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
+                    adapter.addAll(tweets);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.e(TAG, "onFailure for loadMoreDate", throwable);
+            }
+        }, maxId);
     }
 
     @Override
