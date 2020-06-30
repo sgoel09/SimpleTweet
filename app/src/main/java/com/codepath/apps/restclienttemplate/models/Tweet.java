@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.models;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +20,7 @@ public class Tweet {
     public String body;
     public String createdAt;
     public User user;
+    public String imageUrl;
 
     public Tweet() {}
 
@@ -27,6 +29,7 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt = getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.imageUrl = getImageUrl(jsonObject);
         return tweet;
     }
 
@@ -53,5 +56,21 @@ public class Tweet {
         }
 
         return relativeDate;
+    }
+
+    public static String getImageUrl(JSONObject jsonObject) {
+        try {
+            JSONObject entities = jsonObject.getJSONObject("entities");
+            if (entities.has("media")) {
+                Log.i("TweetMedia", "has media");
+                JSONArray media = entities.getJSONArray("media");
+                String url = media.getJSONObject(0).getString("media_url_https");
+                return url + ":small";
+            }
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
