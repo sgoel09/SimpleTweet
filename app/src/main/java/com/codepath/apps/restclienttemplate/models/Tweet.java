@@ -42,6 +42,11 @@ public class Tweet {
     @Ignore
     public User user;
 
+    public int retweets;
+    public boolean retweeted;
+    public int favorites;
+    public boolean favorited;
+
     public Tweet() {}
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
@@ -53,6 +58,10 @@ public class Tweet {
         tweet.userId = user.id;
         tweet.imageUrl = getImageUrl(jsonObject);
         tweet.id = jsonObject.getLong("id");
+        tweet.retweets = jsonObject.getInt("retweet_count");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
+        tweet.favorites = jsonObject.getInt("favorite_count");
+        tweet.favorited = jsonObject.getBoolean("favorited");
         return tweet;
     }
 
@@ -94,5 +103,21 @@ public class Tweet {
             }
         }
         return null;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

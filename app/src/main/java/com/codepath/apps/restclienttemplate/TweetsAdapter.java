@@ -2,6 +2,8 @@ package com.codepath.apps.restclienttemplate;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -71,7 +78,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
     // Define a viewholder
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 //        ImageView ivProfileImage;
 //        TextView tvBody;
@@ -91,6 +98,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 //            ivMedia = itemView.findViewById(R.id.ivMedia);
             bind.getRoot();
             binding = bind;
+            itemView.setOnClickListener(this);
+            binding.ivRetweet.setOnClickListener(retweetListener);
         }
 
         public void bind(Tweet tweet) {
@@ -98,7 +107,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.tvScreenName.setText(String.format("@%s", tweet.user.screenName));
             binding.tvName.setText(tweet.user.name);
             binding.tvCreatedAt.setText(tweet.createdAt);
-            Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
+            Glide.with(context).load(tweet.user.profileImageUrl).transform(new RoundedCorners(8)).into(binding.ivProfileImage);
             if (tweet.imageUrl != null) {
                 Glide.with(context).load(tweet.imageUrl).into(binding.ivMedia);
                 binding.ivMedia.setVisibility(View.VISIBLE);
@@ -108,5 +117,25 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
             Log.i("TweetsAdapter", "binded");
         }
+
+        // Calls the DetailsActivity when a row is clicked
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Tweet tweet = tweets.get(position);
+                Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                context.startActivity(intent);
+            }
+        }
+
+        public View.OnClickListener retweetListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.retweetGreen);
+                ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+            }
+        };
     }
 }

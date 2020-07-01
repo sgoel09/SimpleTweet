@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "95b1f019fa537b9c32aab2bd5fdadc82",
+    "version": 5,
+    "identityHash": "4a09510e5d1b3e389eb756210fbf3d09",
     "entities": [
       {
         "tableName": "SampleModel",
@@ -32,7 +32,7 @@
       },
       {
         "tableName": "Tweet",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `body` TEXT, `createdAt` TEXT, `imageUrl` TEXT, `userId` INTEGER NOT NULL, `retweets` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`userId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `body` TEXT, `createdAt` TEXT, `imageUrl` TEXT, `userId` INTEGER NOT NULL, `retweets` INTEGER NOT NULL, `retweeted` INTEGER NOT NULL, `favorites` INTEGER NOT NULL, `favorited` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`userId`) REFERENCES `User`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -67,6 +67,24 @@
           {
             "fieldPath": "retweets",
             "columnName": "retweets",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "retweeted",
+            "columnName": "retweeted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "favorites",
+            "columnName": "favorites",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "favorited",
+            "columnName": "favorited",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -134,7 +152,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '95b1f019fa537b9c32aab2bd5fdadc82')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4a09510e5d1b3e389eb756210fbf3d09')"
     ]
   }
 }

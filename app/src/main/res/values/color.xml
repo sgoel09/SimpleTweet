@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="retweetGreen">#5DE13F</color>
+    <color name="favoriteRed">#FB2D47</color>
+    <color name="standardGray">#AAB8C2</color>
+</resources>

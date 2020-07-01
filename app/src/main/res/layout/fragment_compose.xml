@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:layout_marginBottom="25dp"
     tools:context=".ComposeActivity">
 
     <EditText
@@ -26,6 +28,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:textColor="#F5F8FA"
+        android:background="#85D0FF"
         android:text="@string/tweet" />
 
     <TextView
@@ -33,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/etCompose"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="6dp"
         android:text="TextView" />
 </RelativeLayout>
