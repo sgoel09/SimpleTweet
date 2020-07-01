@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -9,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,7 +35,7 @@ import java.util.List;
 
 import okhttp3.Headers;
 
-public class TimelineActivity extends AppCompatActivity {
+public class TimelineActivity extends AppCompatActivity implements ComposeFragment.ComposeFragmentListener {
 
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
@@ -142,11 +144,22 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Compose) {
-            Intent i = new Intent(this, ComposeActivity.class);
-            startActivityForResult(i, REQUEST_CODE);
+            //Intent i = new Intent(this, ComposeActivity.class);
+            //startActivityForResult(i, REQUEST_CODE);
+            FragmentManager fm = getSupportFragmentManager();
+            ComposeFragment composeFragment = ComposeFragment.newInstance();
+            composeFragment.show(fm, "fragment_compose");
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFinishTweet(Parcelable parcels) {
+        Tweet tweet = Parcels.unwrap(parcels);
+        tweets.add(0, tweet);
+        adapter.notifyItemInserted(0);
+        binding.rvTweets.smoothScrollToPosition(0);
     }
 
     @Override
