@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,8 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -30,7 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,6 +150,18 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public static void onEditFragment() {
+        //FragmentManager fm = getSupportFragmentManager();
+        ComposeFragment composeFragment = ComposeFragment.newInstance();
+        //composeFragment.show(fm, "fragment_compose");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override

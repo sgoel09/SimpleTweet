@@ -1,14 +1,11 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,10 +28,10 @@ import okhttp3.Headers;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ComposeFragment#newInstance} factory method to
+ * Use the {@link ReplyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ComposeFragment extends DialogFragment {
+public class ReplyFragment extends Fragment {
 
     public interface ComposeFragmentListener {
         void onFinishTweet(Parcelable parcels);
@@ -47,13 +44,13 @@ public class ComposeFragment extends DialogFragment {
 
     TwitterClient client;
 
-    public ComposeFragment() {
+    public ReplyFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static ComposeFragment newInstance() {
-        ComposeFragment fragment = new ComposeFragment();
+    public static ReplyFragment newInstance() {
+        ReplyFragment fragment = new ReplyFragment();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);
@@ -70,7 +67,7 @@ public class ComposeFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_compose, container, false);
+        return inflater.inflate(R.layout.fragment_reply, container, false);
     }
 
     @Override
@@ -93,7 +90,7 @@ public class ComposeFragment extends DialogFragment {
                 String charsLeftMessage = tweetLength + "/280";
                 tvCharacterCount.setText(charsLeftMessage);
                 if (tweetLength > 280) {
-                    tvCharacterCount.setTextColor(Color.parseColor("#FB2D47"));
+                    tvCharacterCount.setTextColor(Color.parseColor("#FFFFFF"));
                 } else {
                     tvCharacterCount.setTextColor(Color.parseColor("#657786"));
                 }
@@ -128,9 +125,9 @@ public class ComposeFragment extends DialogFragment {
 //                            Intent i = new Intent();
 //                            i.putExtra("tweet", Parcels.wrap(tweet));
 //                            setResult(RESULT_OK, i);
-                            ComposeFragmentListener listener = (ComposeFragmentListener) getActivity();
+                            ComposeFragment.ComposeFragmentListener listener = (ComposeFragment.ComposeFragmentListener) getActivity();
                             listener.onFinishTweet(Parcels.wrap(tweet));
-                            dismiss();
+                            //dismiss();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

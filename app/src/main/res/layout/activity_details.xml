@@ -10,21 +10,21 @@
         android:id="@+id/ivRetweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBody"
+        android:layout_below="@id/divider"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="7dp"
-        app:srcCompat="@drawable/ic_vector_retweet"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
         android:clickable="true"
-        android:tint="#AAB8C2" />
+        android:tint="#AAB8C2"
+        app:srcCompat="@drawable/ic_vector_retweet" />
 
     <ImageView
         android:id="@+id/ivFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBody"
-        android:layout_marginStart="109dp"
-        android:layout_marginTop="7dp"
+        android:layout_below="@id/divider"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/tvRetweetCount"
         android:clickable="true"
         android:tint="#AAB8C2"
@@ -35,8 +35,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -45,8 +45,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:layout_toEndOf="@+id/ivProfilePic"
+        android:textColor="#14171A"
+        android:textStyle="bold"
+        android:textSize="24dp"
         tools:text="Shefali Goel" />
 
     <TextView
@@ -57,6 +60,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivProfilePic"
+        android:textColor="#657786"
         tools:text="@sgoel09" />
 
     <TextView
@@ -65,25 +69,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivProfilePic"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:autoLink="all"
+        android:textColor="#14171A"
+        android:textSize="18dp"
         tools:text="This is a tweet" />
 
     <ImageView
         android:id="@+id/ivImageMedia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBody"
-        android:layout_marginTop="80dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        android:layout_below="@id/tvBody"
+        android:layout_marginTop="15dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvRetweetCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBody"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="8dp"
+        android:layout_below="@id/divider"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/ivRetweet"
         tools:text="1000" />
 
@@ -91,10 +98,26 @@
         android:id="@+id/tvFavorites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBody"
-        android:layout_marginStart="8dp"
+        android:layout_below="@id/divider"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/ivFavorite"
         tools:text="2500" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ivImageMedia"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ivFavorite"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/listDivider" />
 
 </RelativeLayout>

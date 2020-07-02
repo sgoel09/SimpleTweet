@@ -1,30 +1,30 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.parceler.Parcels;
 
 import java.util.List;
+
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
@@ -100,6 +100,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding = bind;
             itemView.setOnClickListener(this);
             binding.ivRetweet.setOnClickListener(retweetListener);
+            binding.ivFavorite.setOnClickListener(favoriteListener);
         }
 
         public void bind(Tweet tweet) {
@@ -107,6 +108,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.tvScreenName.setText(String.format("@%s", tweet.user.screenName));
             binding.tvName.setText(tweet.user.name);
             binding.tvCreatedAt.setText(tweet.createdAt);
+            binding.tvRetweetCount.setText(String.valueOf(tweet.retweets));
+            binding.tvFavorites.setText(String.valueOf(tweet.favorites));
             Glide.with(context).load(tweet.user.profileImageUrl).transform(new RoundedCorners(8)).into(binding.ivProfileImage);
             if (tweet.imageUrl != null) {
                 Glide.with(context).load(tweet.imageUrl).into(binding.ivMedia);
@@ -115,6 +118,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             else if (tweet.imageUrl == null) {
                 binding.ivMedia.setVisibility(View.GONE);
             }
+            setRetweetColor(tweet, binding);
+            setFavoriteColor(tweet, binding);
             Log.i("TweetsAdapter", "binded");
         }
 
@@ -132,10 +137,112 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         public View.OnClickListener retweetListener = new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.retweetGreen);
-                ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+            public void onClick(final View v) {
+                TwitterClient client = TwitterApp.getRestClient(v.getContext());
+                final Tweet tweet = tweets.get(getAdapterPosition());
+                if (tweet.retweeted == false) {
+                    client.publishRetweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.i("DetailsActivity", "retweeted");
+                            ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.retweetGreen);
+                            ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+                            tweet.retweeted = true;
+                            tweet.retweets += 1;
+                            binding.tvRetweetCount.setText(String.valueOf(tweet.retweets));
+                            setRetweetColor(tweet, binding);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e("DetailsActivity", response, throwable);
+                        }
+                    });
+                } else {
+                    client.publishUnretweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.i("DetailsActivity", "unretweeted");
+                            ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.standardGray);
+                            ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+                            tweet.retweeted = false;
+                            tweet.retweets -= 1;
+                            binding.tvRetweetCount.setText(String.valueOf(tweet.retweets));
+                            setRetweetColor(tweet, binding);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e("DetailsActivity", response, throwable);
+                        }
+                    });
+                }
             }
         };
+
+        public View.OnClickListener favoriteListener = new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                TwitterClient client = TwitterApp.getRestClient(v.getContext());
+                final Tweet tweet = tweets.get(getAdapterPosition());
+                if (tweet.favorited == false) {
+                    client.publishFavorite(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.i("DetailsActivity", "favorited");
+                            ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.favoriteRed);
+                            ImageViewCompat.setImageTintList(binding.ivFavorite, csl);
+                            tweet.favorited = true;
+                            tweet.favorites += 1;
+                            binding.tvFavorites.setText(String.valueOf(tweet.favorites));
+                            setFavoriteColor(tweet, binding);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e("DetailsActivity", response, throwable);
+                        }
+                    });
+                } else {
+                    client.publishUnfavorite(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.i("DetailsActivity", "unfavorited");
+                            ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.standardGray);
+                            ImageViewCompat.setImageTintList(binding.ivFavorite, csl);
+                            tweet.favorited = false;
+                            tweet.favorites -= 1;
+                            binding.tvFavorites.setText(String.valueOf(tweet.favorites));
+                            setFavoriteColor(tweet, binding);
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.e("DetailsActivity", response, throwable);
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    private void setRetweetColor(Tweet tweet, ItemTweetBinding binding) {
+        if (tweet.retweeted) {
+            ColorStateList csl = AppCompatResources.getColorStateList(context, R.color.retweetGreen);
+            ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+        } else {
+            ColorStateList csl = AppCompatResources.getColorStateList(context, R.color.standardGray);
+            ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+        }
+    }
+
+    private void setFavoriteColor(Tweet tweet, ItemTweetBinding binding) {
+        if (tweet.favorited) {
+            ColorStateList csl = AppCompatResources.getColorStateList(context, R.color.favoriteRed);
+            ImageViewCompat.setImageTintList(binding.ivFavorite, csl);
+        } else {
+            ColorStateList csl = AppCompatResources.getColorStateList(context, R.color.standardGray);
+            ImageViewCompat.setImageTintList(binding.ivFavorite, csl);
+        }
     }
 }

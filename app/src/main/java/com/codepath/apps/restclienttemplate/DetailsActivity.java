@@ -61,6 +61,16 @@ public class DetailsActivity extends AppCompatActivity {
         if (tweet.retweeted) {
             ColorStateList csl = AppCompatResources.getColorStateList(view.getContext(), R.color.retweetGreen);
             ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+        } else {
+            ColorStateList csl = AppCompatResources.getColorStateList(view.getContext(), R.color.standardGray);
+            ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
+        }
+        if (tweet.favorited) {
+            ColorStateList csl = AppCompatResources.getColorStateList(view.getContext(), R.color.favoriteRed);
+            ImageViewCompat.setImageTintList(binding.ivFavorite, csl);
+        } else {
+            ColorStateList csl = AppCompatResources.getColorStateList(view.getContext(), R.color.standardGray);
+            ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
         }
 
         binding.ivRetweet.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +86,8 @@ public class DetailsActivity extends AppCompatActivity {
                             ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.retweetGreen);
                             ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
                             tweet.retweeted = true;
-                            binding.tvRetweetCount.setText(String.valueOf(tweet.retweets + 1));
+                            tweet.retweets += 1;
+                            binding.tvRetweetCount.setText(String.valueOf(tweet.retweets));
                         }
 
                         @Override
@@ -92,7 +103,8 @@ public class DetailsActivity extends AppCompatActivity {
                             ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.standardGray);
                             ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
                             tweet.retweeted = false;
-                            binding.tvRetweetCount.setText(String.valueOf(tweet.retweets - 1));
+                            tweet.retweets -= 1;
+                            binding.tvRetweetCount.setText(String.valueOf(tweet.retweets));
                         }
 
                         @Override
@@ -116,7 +128,8 @@ public class DetailsActivity extends AppCompatActivity {
                             ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.favoriteRed);
                             ImageViewCompat.setImageTintList(binding.ivFavorite, csl);
                             tweet.favorited = true;
-                            binding.tvFavorites.setText(String.valueOf(tweet.favorites + 1));
+                            tweet.favorites += 1;
+                            binding.tvFavorites.setText(String.valueOf(tweet.favorites));
                         }
 
                         @Override
@@ -132,7 +145,8 @@ public class DetailsActivity extends AppCompatActivity {
                             ColorStateList csl = AppCompatResources.getColorStateList(v.getContext(), R.color.standardGray);
                             ImageViewCompat.setImageTintList(binding.ivFavorite, csl);
                             tweet.favorited = false;
-                            binding.tvFavorites.setText(String.valueOf(tweet.favorites - 1));
+                            tweet.favorites -= 1;
+                            binding.tvFavorites.setText(String.valueOf(tweet.favorites));
                         }
 
                         @Override
