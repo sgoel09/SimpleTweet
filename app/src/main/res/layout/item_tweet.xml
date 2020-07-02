@@ -104,7 +104,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_marginEnd="10dp"
                 android:clickable="true"
-                android:tint="#AAB8C2"
+                android:tint="#657786"
                 card_view:srcCompat="@drawable/ic_vector_compose_dm" />
 
             <ImageView
@@ -127,6 +127,7 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/ivRetweet"
+                android:textColor="#657786"
                 tools:text="1000" />
 
             <TextView
@@ -137,6 +138,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/ivFavorite"
+                android:textColor="#657786"
                 tools:text="2500" />
         </RelativeLayout>
     </LinearLayout>

@@ -1,7 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.util.Log;
@@ -43,10 +42,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d("TweetsAdapter", "viewholdercreate");
-        //View view = LayoutInflater.from(context).inflate(R.layout.item_tweet, parent, false);
         ItemTweetBinding binding = ItemTweetBinding.inflate(context.getLayoutInflater());
         View view = binding.getRoot();
-        //setContentView(view);
         return new ViewHolder(view, binding);
     }
 
@@ -80,22 +77,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // Define a viewholder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-//        ImageView ivProfileImage;
-//        TextView tvBody;
-//        TextView tvScreenName;
-//        TextView tvName;
-//        TextView tvCreatedAt;
-//        ImageView ivMedia;
         ItemTweetBinding binding;
 
         public ViewHolder(@NonNull View itemView, ItemTweetBinding bind) {
             super(itemView);
-//            ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
-//            tvBody = itemView.findViewById(R.id.tvBody);
-//            tvScreenName = itemView.findViewById(R.id.tvScreenName);
-//            tvName = itemView.findViewById(R.id.tvName);
-//            tvCreatedAt = itemView.findViewById(R.id.tvCreatedAt);
-//            ivMedia = itemView.findViewById(R.id.ivMedia);
             bind.getRoot();
             binding = bind;
             itemView.setOnClickListener(this);

@@ -39,10 +39,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
 
     TweetDao tweetDao;
     TwitterClient client;
-    //RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
-    //SwipeRefreshLayout swipeContainer;
     ActivityTimelineBinding binding;
     EndlessRecyclerViewScrollListener scrollListener;
 
@@ -54,13 +52,15 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         View view = binding.getRoot();
         setContentView(view);
 
-        //setContentView(R.layout.activity_timeline);
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setLogo(R.drawable.twitter_logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.twitter_logo);
+        //getSupportActionBar().setIcon(R.drawable.ic_launcher_twitter);
 
         client = TwitterApp.getRestClient(this);
         tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
-
-        //swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -76,8 +76,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        // Find the recycler view
-        //rvTweets = findViewById(R.id.rvTweets);
         // Init the list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
@@ -107,8 +105,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 adapter.addAll(tweetsFromDB);
             }
         });
-
-        populateHomeTimeline();
     }
 
     private void loadMoreData() {
@@ -142,8 +138,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Compose) {
-            //Intent i = new Intent(this, ComposeActivity.class);
-            //startActivityForResult(i, REQUEST_CODE);
             FragmentManager fm = getSupportFragmentManager();
             ComposeFragment composeFragment = ComposeFragment.newInstance();
             composeFragment.show(fm, "fragment_compose");
@@ -155,7 +149,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     @Override
     public void onResume(){
         super.onResume();
-        adapter.notifyDataSetChanged();
+        populateHomeTimeline();
     }
 
     @Override

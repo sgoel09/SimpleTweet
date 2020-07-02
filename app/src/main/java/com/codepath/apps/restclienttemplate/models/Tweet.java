@@ -42,8 +42,11 @@ public class Tweet {
     @Ignore
     public User user;
 
+    @ColumnInfo
     public int retweets;
     public boolean retweeted;
+
+    @ColumnInfo
     public int favorites;
     public boolean favorited;
 
