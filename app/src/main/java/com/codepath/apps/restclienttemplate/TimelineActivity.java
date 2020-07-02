@@ -146,6 +146,11 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             composeFragment.show(fm, "fragment_compose");
             return true;
         }
+        if (item.getItemId() == R.id.Logout) {
+            client.clearAccessToken();
+            Intent intent = new Intent(this, LoginActivity.class);
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.databinding.ActivityLoginBinding;
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.SampleModel;
 import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
@@ -18,8 +21,12 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
+		//setContentView(R.layout.activity_login);
 
+		ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
+		View view = binding.getRoot();
+		setContentView(view);
+		Glide.with(this).load(R.drawable.small_twitter_logo).into(binding.ivLogo);
 		final SampleModel sampleModel = new SampleModel();
 		sampleModel.setName("CodePath");
 

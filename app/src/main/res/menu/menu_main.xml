@@ -3,10 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/Compose"
-        android:icon="@drawable/ic_vector_compose"
-        android:title="Compose"
-        android:tint="#FFFFFF"
+    android:id="@+id/Compose"
+    android:icon="@drawable/ic_vector_compose"
+    android:title="Compose"
+    android:tint="#FFFFFF"
+    app:showAsAction="always" />
+
+    <item
+        android:id="@+id/Logout"
+        android:title="logout"
         app:showAsAction="always" />
 
 
