@@ -101,6 +101,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             itemView.setOnClickListener(this);
             binding.ivRetweet.setOnClickListener(retweetListener);
             binding.ivFavorite.setOnClickListener(favoriteListener);
+            binding.ivReply.setOnClickListener(replyListener);
         }
 
         public void bind(Tweet tweet) {
@@ -224,6 +225,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 }
             }
         };
+
+        View.OnClickListener replyListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Tweet tweet = tweets.get(getAdapterPosition());
+                FragmentManager fm = ((TimelineActivity) context).getSupportFragmentManager();
+                ComposeFragment composeFragment = ComposeFragment.newInstance(tweet.user.screenName);
+                composeFragment.show(fm, "fragment_compose");
+            }
+        };
+
     }
 
     private void setRetweetColor(Tweet tweet, ItemTweetBinding binding) {

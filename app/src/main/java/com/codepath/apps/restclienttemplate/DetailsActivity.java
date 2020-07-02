@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
@@ -26,7 +28,7 @@ import okhttp3.Headers;
 
 import static java.lang.Integer.max;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements ComposeFragment.ComposeFragmentListener {
 
     Tweet tweet;
     ActivityDetailsBinding binding;
@@ -157,7 +159,20 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.ivReply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+                ComposeFragment composeFragment = ComposeFragment.newInstance(tweet.user.screenName);
+                composeFragment.show(fm, "fragment_compose");
+            }
+        });
     }
 
+    @Override
+    public void onFinishTweet(Parcelable parcels) {
+
+    }
 
 }

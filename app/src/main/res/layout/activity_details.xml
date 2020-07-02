@@ -92,6 +92,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/ivRetweet"
+        android:textColor="#657786"
         tools:text="1000" />
 
     <TextView
@@ -102,6 +103,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/ivFavorite"
+        android:textColor="#657786"
         tools:text="2500" />
 
     <View
@@ -112,6 +114,18 @@
         android:layout_marginTop="20dp"
         android:background="?android:attr/listDivider" />
 
+    <ImageView
+        android:id="@+id/ivReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:tint="#657786"
+        app:srcCompat="@drawable/ic_vector_compose_dm" />
+
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
@@ -119,5 +133,16 @@
         android:layout_below="@+id/ivFavorite"
         android:layout_marginTop="10dp"
         android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/tvReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
+        android:layout_toStartOf="@+id/ivReply"
+        android:textColor="#657786"
+        android:text="Reply" />
 
 </RelativeLayout>

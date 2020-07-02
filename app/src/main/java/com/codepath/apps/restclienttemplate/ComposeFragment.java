@@ -21,7 +21,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
+import com.codepath.apps.restclienttemplate.databinding.FragmentComposeBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONException;
@@ -41,10 +44,11 @@ public class ComposeFragment extends DialogFragment {
     }
 
     // TODO: Rename and change types of parameters
-    EditText etCompose;
-    Button btnTweet;
-    TextView tvCharacterCount;
+//    EditText etCompose;
+//    Button btnTweet;
+//    TextView tvCharacterCount;
 
+    FragmentComposeBinding binding;
     TwitterClient client;
 
     public ComposeFragment() {
@@ -61,6 +65,15 @@ public class ComposeFragment extends DialogFragment {
         return fragment;
     }
 
+    public static ComposeFragment newInstance(String handle) {
+        ComposeFragment fragment = new ComposeFragment();
+        Bundle args = new Bundle();
+        //args.putString(ARG_PARAM1, param1);
+        args.putString("handle", handle);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,18 +83,32 @@ public class ComposeFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_compose, container, false);
+        //return inflater.inflate(R.layout.fragment_compose, container, false);
+        binding = FragmentComposeBinding.inflate(getLayoutInflater(), container, false);
+        View view = binding.getRoot();
+        return view;
+    }
+
+    public void fillForReply(User user) {
+        binding.etCompose.setText("Google is your friend.", TextView.BufferType.EDITABLE);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        etCompose = view.findViewById(R.id.etCompose);
-        btnTweet = view.findViewById(R.id.btnTweet);
-        tvCharacterCount = view.findViewById(R.id.tvCharacterCount);
-        tvCharacterCount.setText("0/280");
+//        etCompose = view.findViewById(R.id.etCompose);
+//        btnTweet = view.findViewById(R.id.btnTweet);
+//        tvCharacterCount = view.findViewById(R.id.tvCharacterCount);
+        boolean hasHandle = getArguments().containsKey("handle");
+        if (hasHandle) {
+            String screenName = getArguments().getString("handle");
+            String handle = String.format("@%s", screenName);
+            binding.etCompose.setText(handle);
+        }
+        String charCount = String.valueOf(binding.etCompose.getText().length());
+        binding.tvCharacterCount.setText(String.format("%s/280", charCount));
 
-        etCompose.addTextChangedListener(new TextWatcher() {
+        binding.etCompose.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -89,13 +116,13 @@ public class ComposeFragment extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                int tweetLength = etCompose.getText().toString().length();
+                int tweetLength = binding.etCompose.getText().toString().length();
                 String charsLeftMessage = tweetLength + "/280";
-                tvCharacterCount.setText(charsLeftMessage);
+                binding.tvCharacterCount.setText(charsLeftMessage);
                 if (tweetLength > 280) {
-                    tvCharacterCount.setTextColor(Color.parseColor("#FB2D47"));
+                    binding.tvCharacterCount.setTextColor(Color.parseColor("#FB2D47"));
                 } else {
-                    tvCharacterCount.setTextColor(Color.parseColor("#657786"));
+                    binding.tvCharacterCount.setTextColor(Color.parseColor("#657786"));
                 }
             }
 
@@ -105,10 +132,10 @@ public class ComposeFragment extends DialogFragment {
             }
         });
 
-        btnTweet.setOnClickListener(new View.OnClickListener() {
+        binding.btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String tweetContent = etCompose.getText().toString();
+                final String tweetContent = binding.etCompose.getText().toString();
                 if (tweetContent.isEmpty()) {
                     Toast.makeText(v.getContext(), "Sorry, your tweet cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
@@ -143,5 +170,13 @@ public class ComposeFragment extends DialogFragment {
                 });
             }
         });
+
+        binding.ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
     }
 }

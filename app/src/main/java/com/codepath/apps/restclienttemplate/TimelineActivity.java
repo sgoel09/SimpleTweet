@@ -55,7 +55,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         setContentView(view);
 
         //setContentView(R.layout.activity_timeline);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         client = TwitterApp.getRestClient(this);
         tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
@@ -150,12 +150,6 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public static void onEditFragment() {
-        //FragmentManager fm = getSupportFragmentManager();
-        ComposeFragment composeFragment = ComposeFragment.newInstance();
-        //composeFragment.show(fm, "fragment_compose");
     }
 
     @Override

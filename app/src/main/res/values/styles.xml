@@ -2,7 +2,7 @@
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#85D0FF</item>
-        <item name="icon">@drawable/twitter</item>
+        <item name="icon">@drawable/ic_launcher_twitter</item>
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to

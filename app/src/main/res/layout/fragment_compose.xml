@@ -3,54 +3,64 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginBottom="10dp"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="6dp"
     card_view:cardPreventCornerOverlap="true"
     card_view:cardUseCompatPadding="true">
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:layout_marginBottom="25dp"
-    android:padding="10dp"
-    tools:context=".ComposeActivity">
 
-    <EditText
-        android:id="@+id/etCompose"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="What's happening?"
-        android:inputType="textMultiLine"
-        android:minLines="5" />
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_marginBottom="25dp"
+        android:padding="10dp"
+        tools:context=".ComposeActivity">
 
-    <Button
-        android:id="@+id/btnTweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etCompose"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:textColor="#F5F8FA"
-        android:background="#85D0FF"
-        android:text="@string/tweet" />
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="2dp"
+            android:clickable="true"
+            android:tint="#AAB8C2"
+            card_view:srcCompat="@drawable/ic_vector_close" />
 
-    <TextView
-        android:id="@+id/tvCharacterCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/etCompose"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="6dp"
-        android:textColor="#657786"
-        android:text="TextView" />
-</RelativeLayout>
+        <EditText
+            android:id="@+id/etCompose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivClose"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="What's happening?"
+            android:inputType="textMultiLine"
+            android:minLines="5" />
+
+        <Button
+            android:id="@+id/btnTweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etCompose"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="#85D0FF"
+            android:text="@string/tweet"
+            android:textColor="#F5F8FA" />
+
+        <TextView
+            android:id="@+id/tvCharacterCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etCompose"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            android:text="TextView"
+            android:textColor="#657786" />
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>
