@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -34,30 +35,28 @@ import okhttp3.Headers;
 
 public class TimelineActivity extends AppCompatActivity implements ComposeFragment.ComposeFragmentListener {
 
-    public static final String TAG = "TimelineActivity";
+    private static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
+    private final TwitterClient client = TwitterApp.getRestClient(this);;
 
-    TweetDao tweetDao;
-    TwitterClient client;
-    List<Tweet> tweets;
-    TweetsAdapter adapter;
-    ActivityTimelineBinding binding;
-    EndlessRecyclerViewScrollListener scrollListener;
+    private TweetDao tweetDao;
+    private List<Tweet> tweets;
+    private TweetsAdapter adapter;
+    private ActivityTimelineBinding binding;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        
+
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setLogo(R.drawable.small_twitter_logo);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        client = TwitterApp.getRestClient(this);
         tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
 
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -106,6 +105,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     }
 
     private void loadMoreData() {
+        binding.pbLoading.setVisibility(View.VISIBLE);
+
         long maxId = tweets.get(tweets.size() - 1).id;
         client.getNextPageOfTweets(new JsonHttpResponseHandler() {
             @Override
@@ -115,8 +116,10 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 try {
                     List<Tweet> tweets = Tweet.fromJsonArray(jsonArray);
                     adapter.addAll(tweets);
+                    binding.pbLoading.setVisibility(View.INVISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    binding.pbLoading.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -125,6 +128,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 Log.e(TAG, "onFailure for loadMoreDate", throwable);
             }
         }, maxId);
+
+
     }
 
     @Override
@@ -172,6 +177,8 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     }
 
     private void populateHomeTimeline() {
+        binding.pbLoading.setVisibility(View.VISIBLE);
+
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -191,8 +198,10 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                             tweetDao.insertModel(tweetsFromNetwork.toArray(new Tweet[0]));
                         }
                     });
+                    binding.pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
+                    binding.pbLoading.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
 

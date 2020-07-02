@@ -31,9 +31,9 @@ import static java.lang.Integer.max;
 
 public class DetailsActivity extends AppCompatActivity implements ComposeFragment.ComposeFragmentListener {
 
-    Tweet tweet;
-    ActivityDetailsBinding binding;
-    TwitterClient client;
+    private Tweet tweet;
+    private ActivityDetailsBinding binding;
+    private final TwitterClient client = TwitterApp.getRestClient(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,6 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
             @Override
             public void onClick(final View v) {
                 Log.i("DetailsActivity", "onClick");
-                client = TwitterApp.getRestClient(v.getContext());
                 if (tweet.retweeted == false) {
                     client.publishRetweet(tweet.id, new JsonHttpResponseHandler() {
                         @Override
@@ -125,7 +124,6 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
         binding.ivFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                client = TwitterApp.getRestClient(v.getContext());
                 if (tweet.favorited == false) {
                     client.publishFavorite(tweet.id, new JsonHttpResponseHandler() {
                         @Override

@@ -27,8 +27,8 @@ import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
-    Activity context;
-    List<Tweet> tweets;
+    private Activity context;
+    private List<Tweet> tweets;
 
     // Pass in the context and list of tweets
     public TweetsAdapter(Activity context, List<Tweet> tweets) {
@@ -63,13 +63,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
     // Clear all elements in the recycler
-    public void clear() {
+    void clear() {
         tweets.clear();
         notifyDataSetChanged();
     }
 
     // Add a list of tweets to the recycler
-    public void addAll(List<Tweet> tweetsAdd) {
+    void addAll(List<Tweet> tweetsAdd) {
         tweets.addAll(tweetsAdd);
         notifyDataSetChanged();
     }
