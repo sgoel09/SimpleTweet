@@ -4,146 +4,162 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".DetailsActivity">
 
-    <ImageView
-        android:id="@+id/ivRetweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        android:tint="#AAB8C2"
-        app:srcCompat="@drawable/ic_vector_retweet" />
-
-    <ImageView
-        android:id="@+id/ivFavorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/tvRetweetCount"
-        android:clickable="true"
-        android:tint="#AAB8C2"
-        app:srcCompat="@drawable/ic_vector_heart" />
-
-    <ImageView
-        android:id="@+id/ivProfilePic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_toEndOf="@+id/ivProfilePic"
-        android:textColor="#14171A"
-        android:textStyle="bold"
-        android:textSize="24dp"
-        tools:text="Shefali Goel" />
-
-    <TextView
-        android:id="@+id/tvScreenName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/ivProfilePic"
-        android:textSize="16dp"
-        android:textColor="#657786"
-        tools:text="@sgoel09" />
-
-    <TextView
-        android:id="@+id/tvBody"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivProfilePic"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:autoLink="all"
-        android:textColor="#14171A"
-        android:textSize="18dp"
-        tools:text="This is a tweet" />
-
-    <ImageView
-        android:id="@+id/ivImageMedia"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvBody"
-        android:layout_marginTop="15dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:titleTextColor="@android:color/white"
+        android:background="#1DA1F2">
+    </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/tvRetweetCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/ivRetweet"
-        android:textColor="#657786"
-        tools:text="1000" />
-
-    <TextView
-        android:id="@+id/tvFavorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/ivFavorite"
-        android:textColor="#657786"
-        tools:text="2500" />
-
-    <View
-        android:id="@+id/divider"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/ivImageMedia"
-        android:layout_marginTop="20dp"
-        android:background="?android:attr/listDivider" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginTop="0dp">
 
-    <ImageView
-        android:id="@+id/ivReply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:clickable="true"
-        android:tint="#657786"
-        app:srcCompat="@drawable/ic_vector_compose_dm" />
+        <ImageView
+            android:id="@+id/ivRetweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:tint="#AAB8C2"
+            app:srcCompat="@drawable/ic_vector_retweet" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/ivFavorite"
-        android:layout_marginTop="10dp"
-        android:background="?android:attr/listDivider" />
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/tvRetweetCount"
+            android:clickable="true"
+            android:tint="#AAB8C2"
+            app:srcCompat="@drawable/ic_vector_heart" />
 
-    <TextView
-        android:id="@+id/tvReply"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="4dp"
-        android:layout_toStartOf="@+id/ivReply"
-        android:textColor="#657786"
-        android:text="Reply" />
+        <ImageView
+            android:id="@+id/ivProfilePic"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            tools:srcCompat="@tools:sample/avatars" />
 
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/ivProfilePic"
+            android:textColor="#14171A"
+            android:textSize="24dp"
+            android:textStyle="bold"
+            tools:text="Shefali Goel" />
+
+        <TextView
+            android:id="@+id/tvScreenName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/ivProfilePic"
+            android:textColor="#657786"
+            android:textSize="16dp"
+            tools:text="@sgoel09" />
+
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivProfilePic"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:autoLink="all"
+            android:textColor="#14171A"
+            android:textSize="18dp"
+            tools:text="This is a tweet" />
+
+        <ImageView
+            android:id="@+id/ivImageMedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvBody"
+            android:layout_marginTop="15dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tvRetweetCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/ivRetweet"
+            android:textColor="#657786"
+            tools:text="1000" />
+
+        <TextView
+            android:id="@+id/tvFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/ivFavorite"
+            android:textColor="#657786"
+            tools:text="2500" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/ivImageMedia"
+            android:layout_marginTop="20dp"
+            android:background="?android:attr/listDivider" />
+
+        <ImageView
+            android:id="@+id/ivReply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:clickable="true"
+            android:tint="#657786"
+            app:srcCompat="@drawable/ic_vector_compose_dm" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/ivFavorite"
+            android:layout_marginTop="10dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/tvReply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="4dp"
+            android:layout_toStartOf="@+id/ivReply"
+            android:text="Reply"
+            android:textColor="#657786" />
+    </RelativeLayout>
 </RelativeLayout>

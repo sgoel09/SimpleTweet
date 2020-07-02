@@ -42,6 +42,10 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
         View view = binding.getRoot();
         setContentView(view);
 
+        setSupportActionBar(binding.toolbar);
+        binding.toolbar.setLogo(R.drawable.small_twitter_logo);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         // Unwrap the movie passed in via intent, using its simple name as key
         tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
 

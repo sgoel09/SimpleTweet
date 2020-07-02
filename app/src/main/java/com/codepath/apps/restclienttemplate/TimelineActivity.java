@@ -51,13 +51,11 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        
+        setSupportActionBar(binding.toolbar);
+        binding.toolbar.setLogo(R.drawable.small_twitter_logo);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setLogo(R.drawable.twitter_logo);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.twitter_logo);
-        //getSupportActionBar().setIcon(R.drawable.ic_launcher_twitter);
+
 
         client = TwitterApp.getRestClient(this);
         tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
