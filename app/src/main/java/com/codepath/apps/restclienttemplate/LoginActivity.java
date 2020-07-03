@@ -14,6 +14,7 @@ import com.codepath.apps.restclienttemplate.models.SampleModel;
 import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
+// Represents the activity to log in
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 	SampleModelDao sampleModelDao;
@@ -21,8 +22,8 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.activity_login);
 
+		// Use view binding
 		ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
 		View view = binding.getRoot();
 		setContentView(view);

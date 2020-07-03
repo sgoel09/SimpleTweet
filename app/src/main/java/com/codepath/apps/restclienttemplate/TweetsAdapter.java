@@ -25,6 +25,7 @@ import java.util.List;
 
 import okhttp3.Headers;
 
+// Represents the adapter for tweets in a recyclerview
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
     private Activity context;
@@ -89,6 +90,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             binding.ivReply.setOnClickListener(replyListener);
         }
 
+        // Bind the attributes of the tweet to their corresponding views
         public void bind(Tweet tweet) {
             binding.tvBody.setText(tweet.body);
             binding.tvScreenName.setText(String.format("@%s", tweet.user.screenName));
@@ -121,6 +123,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
         }
 
+        // Updates the retweet views when a retweet is made
         public View.OnClickListener retweetListener = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -166,6 +169,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
         };
 
+        // Updates the favorite views when a tweet is favorited
         public View.OnClickListener favoriteListener = new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -211,6 +215,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             }
         };
 
+        // Displays the reply fragment when the reply icon is clicked
         View.OnClickListener replyListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -223,6 +228,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     }
 
+    // Set the color of the retweet icon based on the user's status with that tweet
     private void setRetweetColor(Tweet tweet, ItemTweetBinding binding) {
         if (tweet.retweeted) {
             ColorStateList csl = AppCompatResources.getColorStateList(context, R.color.retweetGreen);
@@ -233,6 +239,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
     }
 
+    // Set the color of the retweet icon based on the user's status with that tweet
     private void setFavoriteColor(Tweet tweet, ItemTweetBinding binding) {
         if (tweet.favorited) {
             ColorStateList csl = AppCompatResources.getColorStateList(context, R.color.favoriteRed);

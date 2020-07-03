@@ -33,6 +33,7 @@ import java.util.List;
 
 import okhttp3.Headers;
 
+// Represents the timeline of the account
 public class TimelineActivity extends AppCompatActivity implements ComposeFragment.ComposeFragmentListener {
 
     private static final String TAG = "TimelineActivity";
@@ -48,6 +49,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Use view binding
         binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
@@ -56,9 +58,9 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         binding.toolbar.setLogo(R.drawable.small_twitter_logo);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
         tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
 
+        // Set listener for page refresh
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,7 +75,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        // Init the list of tweets and adapter
+        // Initialize the list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
         // Recycler view setup: layout manager and the adapter
@@ -81,6 +83,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         binding.rvTweets.setLayoutManager(layoutManager);
 
+        // Set listener for endless (infinite) scrolling to load more tweets
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -104,6 +107,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         });
     }
 
+    // Loads additional tweet data for timeline
     private void loadMoreData() {
         binding.pbLoading.setVisibility(View.VISIBLE);
 
@@ -140,12 +144,14 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Open new fragment to compose tweet
         if (item.getItemId() == R.id.Compose) {
             FragmentManager fm = getSupportFragmentManager();
             ComposeFragment composeFragment = ComposeFragment.newInstance();
             composeFragment.show(fm, "fragment_compose");
             return true;
         }
+        // Logout of the account
         if (item.getItemId() == R.id.Logout) {
             client.clearAccessToken();
             Intent intent = new Intent(this, LoginActivity.class);
@@ -162,6 +168,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
 
     @Override
     public void onFinishTweet(Parcelable parcels) {
+        // Insert new tweet in timeline and scroll to the top of the timeline
         Tweet tweet = Parcels.unwrap(parcels);
         tweets.add(0, tweet);
         adapter.notifyItemInserted(0);
@@ -181,19 +188,23 @@ public class TimelineActivity extends AppCompatActivity implements ComposeFragme
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    // Populates the timeline with current data
     private void populateHomeTimeline() {
+        // Show indeterminate progress bar
         binding.pbLoading.setVisibility(View.VISIBLE);
-
+        // Get tweet data using network call
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "onSuccess");
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    // Add the received data to the adapter
                     final List<Tweet> tweetsFromNetwork = Tweet.fromJsonArray(jsonArray);
                     adapter.clear();
                     adapter.addAll(tweetsFromNetwork);
                     binding.swipeContainer.setRefreshing(false);
+                    // Save the received data into the database
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {

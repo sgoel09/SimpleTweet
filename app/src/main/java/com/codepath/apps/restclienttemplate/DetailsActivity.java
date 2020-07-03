@@ -29,6 +29,7 @@ import okhttp3.Headers;
 
 import static java.lang.Integer.max;
 
+// Represents the activity for details of a tweet
 public class DetailsActivity extends AppCompatActivity implements ComposeFragment.ComposeFragmentListener {
 
     private Tweet tweet;
@@ -38,10 +39,13 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Use view binding
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
+        // Set icons in toolbar
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setLogo(R.drawable.small_twitter_logo);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -49,7 +53,7 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
         // Unwrap the movie passed in via intent, using its simple name as key
         tweet = (Tweet) Parcels.unwrap(getIntent().getParcelableExtra(Tweet.class.getSimpleName()));
 
-        // Set the title and overview
+        // Set the views corresponding to the attributes of the tweet
         binding.tvName.setText(tweet.user.name);
         binding.tvScreenName.setText(String.format("@%s", tweet.user.screenName));
         binding.tvBody.setText(tweet.body);
@@ -79,6 +83,7 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
             ImageViewCompat.setImageTintList(binding.ivRetweet, csl);
         }
 
+        // Updates the retweet views when a retweet is made
         binding.ivRetweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -121,6 +126,7 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
             }
         });
 
+        // Updates the favorite views when a retweet is made
         binding.ivFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -162,6 +168,7 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
             }
         });
 
+        // Displays the reply fragment when the reply icon is clicked
         binding.ivReply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,6 +179,7 @@ public class DetailsActivity extends AppCompatActivity implements ComposeFragmen
         });
     }
 
+    // Complete the reply tweet
     @Override
     public void onFinishTweet(Parcelable parcels) {
 

@@ -30,8 +30,10 @@ import okhttp3.Headers;
  * Use the {@link ComposeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+// Fragment that represents composing and replying to a tweet
 public class ComposeFragment extends DialogFragment {
 
+    // Interface for its listener
     public interface ComposeFragmentListener {
         void onFinishTweet(Parcelable parcels);
     }
@@ -44,7 +46,7 @@ public class ComposeFragment extends DialogFragment {
 
     }
 
-    // TODO: Rename and change types and number of parameters
+    // Create instance of a compose fragment
     public static ComposeFragment newInstance() {
         ComposeFragment fragment = new ComposeFragment();
         Bundle args = new Bundle();
@@ -52,6 +54,7 @@ public class ComposeFragment extends DialogFragment {
         return fragment;
     }
 
+    // Create instance of a reply fragment (has @username included)
     public static ComposeFragment newInstance(String handle) {
         ComposeFragment fragment = new ComposeFragment();
         Bundle args = new Bundle();
@@ -76,6 +79,8 @@ public class ComposeFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Updates the EditText if the tweet is a reply
         boolean hasHandle = getArguments().containsKey("handle");
         if (hasHandle) {
             String screenName = getArguments().getString("handle");
@@ -85,6 +90,7 @@ public class ComposeFragment extends DialogFragment {
         String charCount = String.valueOf(binding.etCompose.getText().length());
         binding.tvCharacterCount.setText(String.format("%s/280", charCount));
 
+        // Displays current character count of the tweet
         binding.etCompose.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -109,6 +115,7 @@ public class ComposeFragment extends DialogFragment {
             }
         });
 
+        // Publish tweet once button is clicked
         binding.btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
